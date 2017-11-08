@@ -1,1 +1,1 @@
-# gostrata-website
+# My project's README
