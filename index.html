@@ -6,7 +6,7 @@
 -->
 <html>
 	<head>
-		<title>Stratasphere - Empathy Accelerated</title>
+		<title>Stratasphere - Empathy Accelerated Development</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
@@ -164,43 +164,52 @@
 										</div>
 									</form>
 									<ul class="actions">
-											<li><a id="form_button" class="button">Send Message</a></li>
+											<li><button id="form_button" class="button">Send Message</button></li>
 									</ul>
 									<div id="form_submit_response" style="width:100%; padding: 23px 20px 20px 20px ; background-color:#b74e91">
 									</div>
 								</section>
 
 								<script>
+									var html = '';
 									$('#form_submit_response').hide();
-									$('#form_button').click(function(){
-										console.log('sending ajax request')
-										
+									$('#form_button').on('click', function(event){
+										$('#form_button').attr('disabled', 'disabled');
+
+
 										var body = {
 											name: $('#name').val(),
 											email: $('#email').val(),
 											message: $('#message').val()
 										}
-										
-										$.ajax({
-									  	type: "POST",
-									  	url: "https://sheamus.io/strata/webform",
-									  	data: body,
-									  	success: function(data){
-									  		console.log('received response\n', data);
-									  		var html = ''
-									  		if (data.message) {
-									  			html = '<h3>' + data.message + '</h3>';
-									  			$('#name').val('');
-									  			$('#email').val('');
-									  			$('#message').val('');
-									  		} else if (data.error) {
-									  			html = '<h3>' + data.error + '</h3>';
-									  		}
-									  		$('#form_submit_response').html(html).slideDown().delay(2000).slideUp();
+										if (body.name !== '' && body.email !== '' && body.message !== '') {
+											console.log('sending ajax request1')
+											$.ajax({
+										  	type: "POST",
+										  	url: "https://sheamus.io/strata/webform",
+										  	data: body,
+										  	success: function(data){
+										  		console.log('received response\n', data);
+										  		var html = ''
+										  		if (data.message) {
+										  			html = '<h3>' + data.message + '</h3>';
+										  			$('#name').val('');
+										  			$('#email').val('');
+										  			$('#message').val('');
+										  		} else if (data.error) {
+										  			html = '<h3>' + data.error + '</h3>';
+										  		}
+										  		$('#form_submit_response').html(html).slideDown().delay(2000).slideUp();		
+										  	}
+									  	});
+										} else {
+											html = '<h3>Please fill in all fields</h3>';
+											$('#form_submit_response').html(html).slideDown().delay(2000).slideUp(function(){
+												$('#form_button').attr('disabled', null);
+											});
 
-									  	}
-										});
-									})
+										}
+									});
 								</script>
 
 
