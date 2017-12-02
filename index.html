@@ -17,6 +17,8 @@
 		<link rel="manifest" href="manifest.json">
 		<link rel="mask-icon" href="safari-pinned-tab.svg" color="#5b6fd5">
 		<meta name="theme-color" content="#ffffff">
+
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
 		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
 	</head>
@@ -135,13 +137,15 @@
 					</section>
 
 				<!-- Three -->
+
+
 					<section id="three" class="wrapper style1 fade-up">
 						<div class="inner">
 							<h2>3... 2... 1... Lift Off!</h2>
 							<p>Contact Mission Control and a member of our crew will reach out to you soon.</p>
 							<div class="split style1">
 								<section>
-									<form method="post" action="#">
+									<form method="post" action="http://localhost:5000/strata/webform">
 										<div class="field half first">
 											<label for="name">Name</label>
 											<input type="text" name="name" id="name" />
@@ -154,11 +158,48 @@
 											<label for="message">Message</label>
 											<textarea name="message" id="message" rows="5"></textarea>
 										</div>
-										<ul class="actions">
-											<li><a href="mailto:contact@gostratasphere.com" class="button submit">Send Message</a></li>
-										</ul>
 									</form>
+									<ul class="actions">
+											<li><a id="form_button" class="button">Send Message</a></li>
+									</ul>
+									<div id="form_submit_response" style="width:100%; padding: 23px 20px 20px 20px ; background-color:#b74e91">
+									</div>
 								</section>
+
+								<script>
+									$('#form_submit_response').hide();
+									$('#form_button').click(function(){
+										console.log('sending ajax request')
+										
+										var body = {
+											name: $('#name').val(),
+											email: $('#email').val(),
+											message: $('#message').val()
+										}
+										
+										$.ajax({
+									  	type: "POST",
+									  	url: "https://sheamus.io/strata/webform",
+									  	data: body,
+									  	success: function(data){
+									  		console.log('received response\n', data);
+									  		var html = ''
+									  		if (data.message) {
+									  			html = '<h3>' + data.message + '</h3>';
+									  			$('#name').val('');
+									  			$('#email').val('');
+									  			$('#message').val('');
+									  		} else if (data.error) {
+									  			html = '<h3>' + data.error + '</h3>';
+									  		}
+									  		$('#form_submit_response').html(html).slideDown().delay(2000).slideUp();
+
+									  	}
+										});
+									})
+								</script>
+
+
 								<section>
 									<ul class="contact">
 										<li>
@@ -170,10 +211,7 @@
 											<h3>Email</h3>
 											<a href="mailto:contact@gostratasphere.com?subject=Greetings">contact@gostratasphere.com</a>
 										</li>
-										<!----<li>
-											<h3>Phone</h3>
-											<span>555-999-0000</span>
-										</li>-->
+
 										<li>
 											<h3>Find Us on GitHub</h3>
 											<ul class="icons">
