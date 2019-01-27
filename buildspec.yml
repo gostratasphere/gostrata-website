@@ -1,0 +1,19 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - $(aws ecr get-login --no-include-email --region us-east-1)
+      - REPOSITORY_URI=954105858134.dkr.ecr.us-east-1.amazonaws.com/gostrata-website
+  build:
+    commands:
+      - echo Build started on `date`
+      - echo Building the Docker image...          
+      - docker build -t sheamusio:web .
+      - docker tag sheamusio:web 954105858134.dkr.ecr.us-east-1.amazonaws.com/gostrata-website:web      
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - echo Pushing the Docker image...
+      - docker push 954105858134.dkr.ecr.us-east-1.amazonaws.com/gostrata-website:web
