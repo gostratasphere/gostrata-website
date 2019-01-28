@@ -2,6 +2,7 @@ FROM node:8
 
 # Create app directory
 WORKDIR /app
+RUN touch output && echo ${CODEBUILD_SOURCE_VERSION} > output
 
 # Install app dependencies
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
