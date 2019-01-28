@@ -10,8 +10,8 @@ phases:
     commands:
       - echo Build started on `date`
       - echo Building the Docker image...          
-      - docker build -t sheamusio:web .
-      - docker tag sheamusio:web 954105858134.dkr.ecr.us-east-1.amazonaws.com/gostrata-website:web      
+      - docker build -t gostrata-website:web .
+      - docker tag gostrata-website:web 954105858134.dkr.ecr.us-east-1.amazonaws.com/gostrata-website:web      
   post_build:
     commands:
       - echo Build completed on `date`
