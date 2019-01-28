@@ -17,7 +17,7 @@ phases:
       - echo Build completed on `date`
       - echo Pushing the Docker image...
       - docker push 954105858134.dkr.ecr.us-east-1.amazonaws.com/gostrata-website:web
-  artifacts:
-    files:
-    - '**/*'
-    name: build-output-$AWS_REGION
+artifacts:
+  files:
+  - '**/*'
+  name: build-output-$AWS_REGION
