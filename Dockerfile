@@ -15,6 +15,6 @@ RUN npm install
 # Bundle app source
 COPY . .
 
-EXPOSE process.env.PORT || 5000
+EXPOSE 80
 CMD [ "node", "./bin/gostrata" ]
 
